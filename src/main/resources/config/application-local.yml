@@ -1,0 +1,78 @@
+server:
+  port: 8089
+
+##mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.entity
+  check-config-location: true
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+spring:
+  datasource: # 多数据源
+    # type: com.alibaba.druid.pool.DruidDataSource
+    # 主库
+    master:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://localhost:3306/test1?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 配置初始值
+      initial-size: "${global.druid.db.initial-size}"
+      min-idle: "${global.druid.db.min-idle}"
+      max-active: "${global.druid.db.max-active}"
+      # 获取连接等待超时时间
+      max-wait: "${global.druid.db.max-wait}"
+      # 监控关闭空闲连接时间间隔
+      time-between-eviction-runs-millis: "${global.druid.db.time-between-eviction-runs-millis}"
+      # 每个连接池最小的生命周期
+      min-evictable-idle-time-millis: "${global.druid.db.min-evictable-idle-time-millis}"
+      validation-query: "${global.druid.db.validation-query}"
+      test-while-idle: "${global.druid.db.test-while-idle}"
+      test-on-borrow: "${global.druid.db.test-on-borrow}"
+      test-on-return: "${global.druid.db.test-on-return}"
+      remove-abandoned: "${global.druid.db.remove-abandoned}"
+      remove-abandoned-timeout: "${global.druid.db.remove-abandoned-timeout}"
+      log-abandoned: "${global.druid.db.log-abandoned}"
+    # 从库
+    slave:
+      type: com.alibaba.druid.pool.DruidDataSource
+      # 注意不是jdbcUrl, Durid是url
+      url: jdbc:mysql://localhost:3306/test2?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 配置初始值
+      initial-size: "${global.druid.db.initial-size}"
+      min-idle: "${global.druid.db.min-idle}"
+      max-active: "${global.druid.db.max-active}"
+      # 获取连接等待超时时间
+      max-wait: "${global.druid.db.max-wait}"
+      # 监控关闭空闲连接时间间隔
+      time-between-eviction-runs-millis: "${global.druid.db.time-between-eviction-runs-millis}"
+      # 每个连接池最小的生命周期
+      min-evictable-idle-time-millis: "${global.druid.db.min-evictable-idle-time-millis}"
+      validation-query: "${global.druid.db.validation-query}"
+      test-while-idle: "${global.druid.db.test-while-idle}"
+      test-on-borrow: "${global.druid.db.test-on-borrow}"
+      test-on-return: "${global.druid.db.test-on-return}"
+      remove-abandoned: "${global.druid.db.remove-abandoned}"
+      remove-abandoned-timeout: "${global.druid.db.remove-abandoned-timeout}"
+      log-abandoned: "${global.druid.db.log-abandoned}"
+# page 分页插件
+pagehelper:
+  helper-dialect: sqlServer # 支持Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL等等
+  reasonable: true # 分页合理化参数，默认值为false, true会合理化( pageNum<=0 和 pageNum>pages)
+  support-methods-arguments: true
+  params: count=countSql
+  auto-runtime-dialect: true # 动态数据源 autoRuntimeDialect:true，确保使用不同数据源时，会使用匹配的分页进行查询
+  close-conn: false # 默认true:每次获取数据源后自动关闭, 这里设置成false, 不关闭
+
+
+
+
+
